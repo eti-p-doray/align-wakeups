@@ -1,15 +1,15 @@
-# How to try Throttling of Foreground Timers
+# How to try Timers coalescing
 
-Throttling of Foreground Timers is available behind a flag in Chrome 99.0.4844.0
+Timers coalescing is available behind a flag in Chrome 100.0.4876.0
 and above. To enable it, navigate to chrome://flags and enable the
-"#throttle-foreground-timers" feature.
+"#align-wakeups" feature.
 
 After enabling the feature, run this code in Chrome:
 
 ```javascript
 let last = performance.now();
 function onTimer() {
-    setTimeout(onTimer, 2);
+    setTimeout(onTimer, 5);
     let now = performance.now();
     console.log(`Elapsed: ${Math.round(now - last)} ms`);
     last = now;
@@ -17,5 +17,5 @@ function onTimer() {
 onTimer();
 ```
 
-Notice that approximately there is approximately 32ms between each invocation of
+Notice that there is approximately 8ms between each invocation of
 the `onTimer()` function.
